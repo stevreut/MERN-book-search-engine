@@ -12,6 +12,10 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,  // TODO - true is the default, however,
+  // explicity including this as a reminder to come back to it when
+  // we are ready for production - whether by environment-sensitive
+  // code or by simply changing it to 'false'.
 });
 
 // Create a new instance of an Apollo server with the GraphQL schema
@@ -21,9 +25,15 @@ const startApolloServer = async () => {
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
-  app.use('/graphql', expressMiddleware(server, {
-    context: authMiddleware
-  }));
+  // app.use('/graphql', expressMiddleware(server, {
+  //   context: authMiddleware
+  // }));
+
+  // TODO - replace code below with above once we are ready
+  // to deal with authentication aspect
+  // TODO - P.S. Eureka!  This temporary changed resolved "introspection"
+  // issue.
+  app.use('/graphql', expressMiddleware(server));
 
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
