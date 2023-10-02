@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 // set token secret and expiration date
-const secret = 'mysecretsshhhhh';
+const secret = 'mysecretsshhhhh';  // TODO - better secret?  store in .env? (dotenv?)
 const expiration = '2h';
 
 module.exports = {
